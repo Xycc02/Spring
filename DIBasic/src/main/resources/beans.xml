@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--常量注入-->
+    <bean id="student1" class="com.xuyuchao.pojo.Student">
+        <property name="name" value="徐宇超"></property>
+    </bean>
+    <!--Bean注入-->
+        <!--外部Bean注入-->
+        <bean id="address1" class="com.xuyuchao.pojo.Address">
+            <property name="address" value="九江(外部Bean)"></property>
+        </bean>
+        <bean id="student2" class="com.xuyuchao.pojo.Student">
+            <property name="address" ref="address1"></property>
+        </bean>
+        <!--内部Bean注入-->
+        <bean id="student3" class="com.xuyuchao.pojo.Student">
+            <property name="address">
+                <bean id="address2" class="com.xuyuchao.pojo.Address">
+                    <property name="address" value="九江(内部Bean)"></property>
+                </bean>
+            </property>
+        </bean>
+    <!--数组注入-->
+    <bean id="student4" class="com.xuyuchao.pojo.Student">
+        <property name="books">
+            <array>
+                <value>西游记</value>
+                <value>红楼梦</value>
+                <value>三国演义</value>
+            </array>
+        </property>
+    </bean>
+    <!--List注入-->
+    <bean id="student5" class="com.xuyuchao.pojo.Student">
+        <property name="hobbys">
+            <list>
+                <value>吃饭</value>
+                <value>睡觉</value>
+                <value>玩游戏</value>
+            </list>
+        </property>
+    </bean>
+    <!--Map注入-->
+    <bean id="student6" class="com.xuyuchao.pojo.Student">
+        <property name="card">
+            <map>
+                <entry key="建设银行" value="123456"/>
+                <entry key="农商银行" value="654321"/>
+            </map>
+        </property>
+    </bean>
+    <!--Set注入-->
+    <bean id="student7" class="com.xuyuchao.pojo.Student">
+        <property name="games">
+            <set>
+                <value>PUBG</value>
+                <value>APEX</value>
+            </set>
+        </property>
+    </bean>
+    <!--Null注入-->
+    <bean id="student8" class="com.xuyuchao.pojo.Student">
+        <property name="wife">
+            <null/>
+        </property>
+    </bean>
+    <!--Properties注入-->
+    <bean id="student9" class="com.xuyuchao.pojo.Student">
+        <property name="info">
+            <props>
+                <prop key="username">root</prop>
+                <prop key="password">root</prop>
+            </props>
+        </property>
+    </bean>
+    <!--p名称和c名称注入-->
+
+
+</beans>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+        <!--Bean的配置-->
+        <bean id="userServiceImpl1" class="com.xuyuchao.SpringAPI.Service.UserServiceImpl"></bean>
+        <bean id="afterLog" class="com.xuyuchao.SpringAPI.Proxy.AfterLog"></bean>
+        <bean id="beforeLog" class="com.xuyuchao.SpringAPI.Proxy.BeforeLog"></bean>
+        <!--AOP的配置-->
+        <aop:config>
+            <!--配置切入点,expression表达式,表示匹配要执行的方法-->
+            <aop:pointcut id="pointcut" expression="execution(* com.xuyuchao.SpringAPI.Service.UserServiceImpl.*(..))"/>
+            <!--配置通知,advice-ref 执行方法  point-ref 切入点-->
+            <aop:advisor advice-ref="beforeLog" pointcut-ref="pointcut"></aop:advisor>
+            <aop:advisor advice-ref="afterLog" pointcut-ref="pointcut"></aop:advisor>
+        </aop:config>
+
+
+        <bean id="userServiceImpl2" class="com.xuyuchao.DefineClass.Service.UserServiceImpl"></bean>
+        <bean id="definePointCut" class="com.xuyuchao.DefineClass.PointCut.DefinePointCut"></bean>
+     
+        <aop:config>
+            <aop:aspect ref="definePointCut">
+                <aop:pointcut id="pointcut" expression="execution(* com.xuyuchao.DefineClass.Service.UserServiceImpl.*(..))"/>
+                <aop:before method="before" pointcut-ref="pointcut"/>
+                <aop:after method="after" pointcut-ref="pointcut"/>
+            </aop:aspect>
+        </aop:config>
+    
+        <context:component-scan base-package="com.xuyuchao.Annotation"/>
+        <!--声明自动为spring容器中那些配置@aspectJ切面的bean创建代理，织入切面-->
+        <aop:aspectj-autoproxy/>
+</beans>

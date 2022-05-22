@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+<!--自动装配是使用spring满足bean依赖的一种方法
+spring会在应用上下文中为某个bean寻找其依赖的bean。
+Spring中bean有三种装配机制，分别是：
+在xml中显式配置；
+在java中显式配置；
+隐式的bean发现机制和自动装配。
+这里我们主要讲第三种：自动化的装配bean。
+
+Spring的自动装配需要从两个角度来实现，或者说是两个操作：
+
+组件扫描(component scanning)：spring会自动发现应用上下文中所创建的bean；
+自动装配(autowiring)：spring自动满足bean之间的依赖，也就是我们说的IoC/DI；
+组件扫描和自动装配组合发挥巨大威力，使得显示的配置降低到最少。
+
+推荐不使用自动装配xml配置 , 而使用注解-->
+
+    <bean id="cat" class="com.xuyuchao.pojo.Cat"></bean>
+    <bean id="dog" class="com.xuyuchao.pojo.Dog"></bean>
+
+
+    <!--手动装配-->
+    <bean id="user1" class="com.xuyuchao.pojo.User">
+        <property name="cat" ref="cat"></property>
+        <property name="dog" ref="dog"></property>
+    </bean>
+
+
+    <!--
+        由于在手动配置xml过程中，常常发生字母缺漏和大小写等错误，而无法对其进行检查，使得开发效率降低。
+        采用自动装配将避免这些错误，并且使配置简单化。
+    -->
+
+    <!--byName按名称自动装配-->
+    <!--
+        1.找到该类下的所有set方法,并去掉set后将首字母小写
+        2.然后将得到的名称在ioc容器中查找有没有相同的id
+        3.没有就报错,有就注入
+    -->
+    <bean id="user2" class="com.xuyuchao.pojo.User" autowire="byName">
+
+    </bean>
+
+    <!--byType按类型自动装配-->
+    <!--
+    使用autowire byType首先需要保证：同一类型的对象，在spring容器中唯一。
+    如果不唯一，会报不唯一的异常。NoUniqueBeanDefinitionException
+    <bean id="cat2" class="com.xuyuchao.pojo.Cat"></bean>
+    将ioc容器中的cat的id改掉甚至去掉也可以,因为这是按类型装配
+    -->
+
+    <bean id="user3" class="com.xuyuchao.pojo.User" autowire="byType">
+
+    </bean>
+
+    <!--jdk1.5开始支持注解，spring2.5开始全面支持注解。准备工作：利用注解的方式注入属性。-->
+    <!--开启属性注解支持-->
+    <context:annotation-config/>
+    <bean id="pig1" class="com.xuyuchao.pojo.Pig"></bean>
+    <!--NoUniqueBeanDefinitionException-->
+    <!--同一类型的多个Bean要用@Qualifier(根据名称自动装配)和@AutoWired连用-->
+    <bean id="pig2" class="com.xuyuchao.pojo.Pig"></bean>
+    <bean id="pig3" class="com.xuyuchao.pojo.Pig"></bean>
+    <bean id="pig4" class="com.xuyuchao.pojo.Pig"></bean>
+    <bean id="pig5" class="com.xuyuchao.pojo.Pig"></bean>
+
+    <bean id="wolf1" class="com.xuyuchao.pojo.Wolf"></bean>
+    <bean id="wolf2" class="com.xuyuchao.pojo.Wolf"></bean>
+
+    <bean id="admin" class="com.xuyuchao.pojo.Admin"></bean>
+
+
+
+</beans>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--创建bean实例并将其交给Spring的ioc容器去管理-->
+    <bean id="mysqlImpl" class="com.xuyuchao.Dao.UserDaoMysqlImpl"></bean>
+    <bean id="oracleImpl" class="com.xuyuchao.Dao.UserDaoOracleImpl"></bean>
+    <!--注入外部bean-->
+    <bean id="userService" class="com.xuyuchao.Service.UserServiceImpl">
+        <property name="userDao" ref="mysqlImpl"></property>
+    </bean>
+    <!--通过无参构造创建User的ioc对象-->
+    <bean id="user1" class="com.xuyuchao.pojo.User">
+        <property name="name" value="Spring"></property>
+    </bean>
+
+    <!--通过有参构造创建User的ioc对象-->
+    <bean id="user2" class="com.xuyuchao.pojo.User">
+        <constructor-arg name="name" value="SpringMVC"></constructor-arg>
+    </bean>
+
+    <!--通过有参构造创建UserT的ioc对象-->
+    <bean id="userT" class="com.xuyuchao.pojo.UserT">
+        <!--方式一:下标-->
+<!--        <constructor-arg index="0" value="spring"></constructor-arg>-->
+        <!--方式二:参数名称-->
+<!--        <constructor-arg name="name" value="spring"></constructor-arg>-->
+        <!--方式二:参数类型-->
+        <constructor-arg type="java.lang.String" value="spring"></constructor-arg>
+    </bean>
+</beans>
