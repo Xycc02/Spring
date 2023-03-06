@@ -19,6 +19,7 @@
         <module>Proxy</module>
         <module>AOP</module>
         <module>Log4j2</module>
+        <module>BeanLifeCycle</module>
     </modules>
 
     <properties>
